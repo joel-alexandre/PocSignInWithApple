@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 class User {
+  bool success;
+  String message;
   String name;
   String iss;
   String aud;
@@ -11,11 +13,28 @@ class User {
   int auth_time;
   bool nonce_supported;
 
-  User(this.name, this.iss, this.aud, this.sub, this.c_hash, this.email,
-      this.email_verified, this.auth_time, this.nonce_supported);
+  User(this.success, this.name, this.iss, this.aud, this.sub, this.c_hash,
+      this.email, this.email_verified, this.auth_time, this.nonce_supported);
 
-  User.fromJson(String resoponse) {
+  User.withError(String error) {
+    this.success = false;
+    this.message = error;
+    this.name = "";
+    this.iss = "";
+    this.aud = "";
+    this.sub = "";
+    this.c_hash = "";
+    this.email = "";
+    this.email_verified = "";
+    this.auth_time = 0;
+    this.nonce_supported = false;
+  }
+
+  User.fromJson(bool success, String resoponse) {
     var map = json.decode(resoponse);
+
+    this.success = success;
+    this.message = "";
     this.name = "";
     this.iss = map["iss"];
     this.aud = map["aud"];

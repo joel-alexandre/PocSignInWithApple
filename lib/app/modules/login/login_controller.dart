@@ -10,15 +10,9 @@ part 'login_controller.g.dart';
 class LoginController = _LoginControllerBase with _$LoginController;
 
 abstract class _LoginControllerBase with Store {
-  @observable
-  int value = 0;
+  User loggedUser;
 
-  @action
-  void increment() {
-    value++;
-  }
-
-  loginWithApple() async {
+  Future<User> loginWithApple() async {
     final AuthorizationResult result = await AppleSignIn.performRequests([
       AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
     ]);
@@ -34,7 +28,8 @@ abstract class _LoginControllerBase with Store {
         var identityToken =
             String.fromCharCodes(result.credential.identityToken);
         var email = result.credential.email;
-        var fullName = result.credential.fullName.givenName;
+        var fullName = result.credential.fullName;
+        var authorizedScopes = result.credential.authorizedScopes;
 
         var token = identityToken.split('.')[1];
 
@@ -46,25 +41,30 @@ abstract class _LoginControllerBase with Store {
           decodedToken = base64.decode(token + "=");
         }
 
-        var loggedUser = User.fromJson(String.fromCharCodes(decodedToken));
+        var userJson = String.fromCharCodes(decodedToken);
+        var usr = User.fromJson(true, userJson);
+        usr.name = "${fullName.givenName} ${fullName.familyName}";
 
-        // print("authorizationCode: $authorizationCode");
-        // print("state: $state");
-        // print("user: $user");
-        // print("realUserStatus: $realUserStatus");
-        // print("identityToken: $identityToken");
+        // print("name: ${loggedUser.name}");
         // print("email: $email");
-        // print("fullName: $fullName");
+        // print("state: $state");
+        // print("realUserStatus: $realUserStatus");
+        // print("user: $user");
+        // print("authorizationCode: $authorizationCode");
+        // print("identityToken: $identityToken");
+        // print("authorizedScopes: $authorizedScopes");
+        // print(userJson);
 
+        loggedUser = usr;
+        return loggedUser;
         break;
       case AuthorizationStatus.error:
         // não entrou
-        print("${result.error.localizedDescription}");
+        return User.withError(result.error.localizedDescription);
         break;
       case AuthorizationStatus.cancelled:
         // cancelado
-        print("usuário cancelou");
-
+        return User.withError("Cancelado");
         break;
     }
   }

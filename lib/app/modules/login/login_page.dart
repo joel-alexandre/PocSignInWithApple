@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:poc_sign_in_with_apple/app/modules/home/home_module.dart';
 import 'package:poc_sign_in_with_apple/app/modules/login/login_controller.dart';
 import 'package:poc_sign_in_with_apple/app/modules/login/login_module.dart';
 
@@ -27,11 +30,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Column(
         children: <Widget>[
+          Container(
+            height: 150,
+          ),
           Padding(
             padding: EdgeInsets.all(8),
             child: TextField(
@@ -72,8 +75,9 @@ class _LoginPageState extends State<LoginPage> {
             child: AppleSignInButton(
               style: ButtonStyle.black,
               type: ButtonType.continueButton,
-              onPressed: () {
-                _controller.loginWithApple();
+              onPressed: () async {
+                var user = await _controller.loginWithApple();
+                Navigator.of(context).pushNamed('/home', arguments: user);
               },
             ),
           )
