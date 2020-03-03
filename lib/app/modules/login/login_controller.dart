@@ -42,8 +42,8 @@ abstract class _LoginControllerBase with Store {
         }
 
         var userJson = String.fromCharCodes(decodedToken);
-        var usr = User.fromJson(true, userJson);
-        usr.name = "${fullName.givenName} ${fullName.familyName}";
+        loggedUser = User.fromJson(true, userJson);
+        loggedUser.name = "${fullName.givenName} ${fullName.familyName}";
 
         // print("name: ${loggedUser.name}");
         // print("email: $email");
@@ -55,7 +55,6 @@ abstract class _LoginControllerBase with Store {
         // print("authorizedScopes: $authorizedScopes");
         // print(userJson);
 
-        loggedUser = usr;
         return loggedUser;
         break;
       case AuthorizationStatus.error:

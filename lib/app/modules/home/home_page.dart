@@ -17,12 +17,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
   //use 'controller' variable to access controller
+
+  Widget showMessage() {
+    if (widget.loggedUser.success) {
+      return Text("${widget.loggedUser.name} entrou");
+    } else {
+      return Text("${widget.loggedUser.message}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Text("${widget.loggedUser.name} entrou"));
+        body: showMessage());
   }
 }

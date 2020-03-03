@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               type: ButtonType.continueButton,
               onPressed: () async {
                 var user = await _controller.loginWithApple();
-                Navigator.of(context).pushNamed('/home', arguments: user);
+                Modular.to.pushNamed('/home', arguments: user);
               },
             ),
           )
