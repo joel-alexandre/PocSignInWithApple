@@ -6,10 +6,8 @@ import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
-  final User loggedUser;
 
-  const HomePage({Key key, this.title = "Home", this.loggedUser})
-      : super(key: key);
+  const HomePage({Key key, this.title = "Home"}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -17,12 +15,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
   //use 'controller' variable to access controller
+  final loggedUser = User.withError("desconectado");
 
   Widget showMessage() {
-    if (widget.loggedUser.success) {
-      return Text("${widget.loggedUser.name} entrou");
+    if (loggedUser.success) {
+      return Text("${loggedUser.name} entrou");
     } else {
-      return Text("${widget.loggedUser.message}");
+      return Text("${loggedUser.message}");
     }
   }
 
@@ -32,6 +31,21 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: showMessage());
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+              showMessage(),
+              FlatButton(
+                child: Text(
+                  "Login",
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.blue,
+                onPressed: () {
+                  Modular.to.pushNamed('/login');
+                },
+              )
+            ])));
   }
 }

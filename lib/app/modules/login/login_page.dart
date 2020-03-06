@@ -31,10 +31,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
-            height: 150,
+          Padding(
+            padding: const EdgeInsets.only(left: 50, right: 50),
+            child: Image.asset('assets/icarros.png'),
           ),
+          Container(height: 20),
           Padding(
             padding: EdgeInsets.all(8),
             child: TextField(
@@ -55,11 +58,13 @@ class _LoginPageState extends State<LoginPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
               child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
                   color: Colors.blue,
                   textColor: Colors.white,
                   disabledColor: Colors.grey,
                   disabledTextColor: Colors.white,
-                  padding: EdgeInsets.only(top: 16, bottom: 16),
+                  padding: EdgeInsets.only(top: 12, bottom: 12),
                   splashColor: Colors.blueAccent,
                   onPressed: () {
                     print("login email");
@@ -72,13 +77,16 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: AppleSignInButton(
-              style: ButtonStyle.black,
-              type: ButtonType.continueButton,
-              onPressed: () async {
-                var user = await _controller.loginWithApple();
-                Modular.to.pushNamed('/home', arguments: user);
-              },
+            child: ButtonTheme(
+              height: 500,
+              child: AppleSignInButton(
+                style: ButtonStyle.black,
+                type: ButtonType.continueButton,
+                onPressed: () async {
+                  var user = await _controller.loginWithApple();
+                  Modular.to.pop();
+                },
+              ),
             ),
           )
         ],
