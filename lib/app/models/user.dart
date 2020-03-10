@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class User {
+  bool isLoading;
   bool success;
   String message;
   String name;
@@ -13,10 +14,36 @@ class User {
   int auth_time;
   bool nonce_supported;
 
-  User(this.success, this.name, this.iss, this.aud, this.sub, this.c_hash,
-      this.email, this.email_verified, this.auth_time, this.nonce_supported);
+  User(
+      this.isLoading,
+      this.success,
+      this.name,
+      this.iss,
+      this.aud,
+      this.sub,
+      this.c_hash,
+      this.email,
+      this.email_verified,
+      this.auth_time,
+      this.nonce_supported);
+
+  User.withLoading() {
+    this.isLoading = true;
+    this.success = false;
+    this.message = "";
+    this.name = "";
+    this.iss = "";
+    this.aud = "";
+    this.sub = "";
+    this.c_hash = "";
+    this.email = "";
+    this.email_verified = "";
+    this.auth_time = 0;
+    this.nonce_supported = false;
+  }
 
   User.withError(String error) {
+    this.isLoading = false;
     this.success = false;
     this.message = error;
     this.name = "";
@@ -33,6 +60,7 @@ class User {
   User.fromJson(bool success, String resoponse) {
     var map = json.decode(resoponse);
 
+    this.isLoading = false;
     this.success = success;
     this.message = "";
     this.name = "";

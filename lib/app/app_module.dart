@@ -9,6 +9,7 @@ class AppModule extends MainModule {
   @override
   List<Bind> get binds => [
         Bind((i) => AppController()),
+        //
       ];
 
   @override
