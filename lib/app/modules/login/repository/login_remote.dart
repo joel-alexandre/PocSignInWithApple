@@ -32,7 +32,11 @@ class LoginRemote {
         if ((token.length % 4) == 0) {
           decodedToken = base64.decode(token);
         } else {
-          decodedToken = base64.decode(token + "=");
+          while ((token.length % 4) != 0) {
+            token += "=";
+          }
+
+          decodedToken = base64.decode(token);
         }
 
         var userJson = String.fromCharCodes(decodedToken);

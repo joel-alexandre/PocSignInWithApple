@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:poc_sign_in_with_apple/app/modules/home/home_controller.dart';
 import 'package:poc_sign_in_with_apple/app/modules/login/login_controller.dart';
 
 class LoginPage extends StatefulWidget {

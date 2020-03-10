@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poc_sign_in_with_apple/app/models/user.dart';
 import 'home_controller.dart';
@@ -16,16 +15,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends ModularState<HomePage, HomeController> {
   User loggedUser;
 
-  String getUserMessage() {
-    if (loggedUser == null) {
-      return "Desconectado";
+  Widget getUserData() {
+    var userName = '';
+    var email = '';
+
+    if (loggedUser != null) {
+      if (loggedUser.success) {
+        userName = loggedUser.name;
+        email = loggedUser.email;
+      } else {
+        userName = loggedUser.message;
+      }
     }
 
-    if (loggedUser.success) {
-      return "${loggedUser.name} entrou";
-    } else {
-      return "${loggedUser.message}";
-    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[Text(userName), Text(email)],
+    );
   }
 
   @override
@@ -38,7 +44,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-              Text(getUserMessage()),
+              getUserData(),
               FlatButton(
                 child: Text(
                   "Login",

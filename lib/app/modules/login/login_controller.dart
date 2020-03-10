@@ -1,10 +1,5 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
-import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:poc_sign_in_with_apple/app/models/user.dart';
-import 'package:poc_sign_in_with_apple/app/modules/home/home_module.dart';
 import 'package:poc_sign_in_with_apple/app/modules/login/repository/login_repository.dart';
 part 'login_controller.g.dart';
 
